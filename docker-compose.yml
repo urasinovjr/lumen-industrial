@@ -1,0 +1,44 @@
+services:
+  products-postgres:
+    image: postgres:16
+    container_name: lumen_products_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lumen_products
+      POSTGRES_USER: lumen
+      POSTGRES_PASSWORD: lumen_pass
+    ports:
+      - "5436:5432"
+    volumes:
+      - products_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lumen -d lumen_products"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  orders-postgres:
+    image: postgres:16
+    container_name: lumen_orders_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lumen_orders
+      POSTGRES_USER: lumen
+      POSTGRES_PASSWORD: lumen_pass
+    ports:
+      - "5437:5432"
+    volumes:
+      - orders_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lumen -d lumen_orders"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  products_data:
+    external: true
+    name: lumen-products_postgres_data
+  orders_data:
+    external: true
+    name: lumen-orders_postgres_data

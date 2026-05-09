@@ -1,0 +1,291 @@
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 32px var(--content-gutter) 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.checkmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  color: var(--color-surface);
+  background-color: var(--color-accent);
+  border-radius: 50%;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  max-width: 520px;
+  margin: 0 auto 16px;
+  line-height: 1.6;
+}
+
+.orderNumber {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.orderNumber strong {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.cardIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.itemMedia {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background-color: #0b1018;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.itemMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemBody {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemMeta {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.itemPrice {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.cardSummary {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.cardSummary strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.cardText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.cardMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 8px;
+}
+
+.cardMeta svg {
+  color: var(--color-accent-active);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 4px 0;
+}
+
+.cardTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.cardTotalValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.backLink {
+  display: inline-block;
+}
+
+.tracking {
+  position: relative;
+  margin-top: 24px;
+  padding: 24px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.trackingMap {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(229, 169, 59, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(229, 169, 59, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px, 12px 12px, 12px 12px;
+  background-color: #f7f3eb;
+}
+
+.trackingInfo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trackingTag {
+  display: inline-flex;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-surface);
+  background-color: var(--color-text);
+  border-radius: var(--radius-sm);
+}
+
+.trackingText {
+  font-size: 13px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.unknown {
+  padding: 96px 0;
+  text-align: center;
+}
+
+.unknown h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.unknown p {
+  color: var(--color-text-secondary);
+  max-width: 440px;
+  margin: 0 auto 16px;
+}
+
+.unknownLink {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-accent-active);
+}
+
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .actions {
+    flex-direction: column;
+  }
+  .title {
+    font-size: 24px;
+  }
+}

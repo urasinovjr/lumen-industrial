@@ -1,0 +1,41 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.lumen {
+  font-weight: 800;
+}
+
+.divider {
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  font-size: 18px;
+}
+
+.industrial {
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 16px;
+  }
+  .industrial {
+    font-size: 12px;
+  }
+}
