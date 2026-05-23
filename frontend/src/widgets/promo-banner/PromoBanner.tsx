@@ -4,18 +4,17 @@ import styles from './PromoBanner.module.css'
 export function PromoBanner() {
   return (
     <article className={styles.banner}>
-      <p className={styles.eyebrow}>КОРПОРАТИВНЫЕ РЕШЕНИЯ</p>
+      <p className={styles.eyebrow}>ОПТОВЫМ ПОКУПАТЕЛЯМ</p>
       <h3 className={styles.title}>
-        ОПТОВАЯ ИНДИВИДУАЛЬНАЯ
+        ПОСТАВКИ
         <br />
-        РАЗРАБОТКА
+        ДЛЯ БИЗНЕСА
       </h3>
       <p className={styles.text}>
-        Мы специализируемся на спектральных решениях для производственных
-        пространств и архитектурных проектов. Индивидуальные параметры для
-        вашего предприятия.
+        Отгружаем партии от 100 штук со склада. Поможем подобрать лампы под
+        ваш объект и согласуем цену.
       </p>
-      <Button variant="secondary">Запросить доступ</Button>
+      <Button variant="secondary">Оставить заявку</Button>
     </article>
   )
 }

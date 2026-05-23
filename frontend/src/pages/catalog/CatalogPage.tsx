@@ -77,16 +77,15 @@ export default function CatalogPage() {
   return (
     <main className={styles.page}>
       <section className={styles.hero}>
-        <p className={styles.eyebrow}>ОСВЕЩЕНИЕ ПРОМЫШЛЕННОГО КЛАССА</p>
+        <p className={styles.eyebrow}>ЛАМПЫ НАПРЯМУЮ С ЗАВОДА</p>
         <h1 className={styles.title}>
-          ИНЖЕНЕРНАЯ <span className={styles.titleAccent}>ТОЧНОСТЬ</span>
+          ЛАМПЫ И СВЕТИЛЬНИКИ
           <br />
-          ДЛЯ АРХИТЕКТУРНЫХ ПРОСТРАНСТВ
+          <span className={styles.titleAccent}>ДЛЯ ДОМА И БИЗНЕСА</span>
         </h1>
         <p className={styles.subtitle}>
-          Лампы и компоненты Lumen Industrial созданы для экстремальной
-          надёжности и спектральной точности. Высокоэффективные стёкла в
-          сочетании с промышленными радиаторами.
+          Светодиодные, галогенные и филаментные лампы для дома, офиса и
+          производства. Разные цоколи и мощности, гарантия и доставка.
         </p>
 
         <div className={styles.filters} role="tablist">
@@ -119,8 +118,8 @@ export default function CatalogPage() {
 
         {listStatus === 'failed' && (
           <p className={styles.empty}>
-            Не удалось загрузить товары: {listError ?? 'неизвестная ошибка'}.
-            Убедитесь, что сервис товаров запущен на :3001.
+            Не удалось загрузить каталог: {listError ?? 'неизвестная ошибка'}.
+            Попробуйте обновить страницу.
           </p>
         )}
 
@@ -139,7 +138,10 @@ export default function CatalogPage() {
                     <PromoBanner />
                   </div>
                 )}
-                <ProductCard product={product} />
+                <ProductCard
+                  product={product}
+                  series={categories.find((category) => category.id === product.categoryId)?.name}
+                />
               </Fragment>
             ))}
           </div>

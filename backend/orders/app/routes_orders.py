@@ -10,6 +10,7 @@ from app.models import (
 from app.schemas import CreateOrderIn, UpdateStatusIn
 from app.products_client import get_product
 from app.routes_cart import get_session_id
+from app.auth import require_admin
 
 router = APIRouter()
 
@@ -158,7 +159,8 @@ def get_order(order_number: str, db: Session = Depends(get_db)):
 
 @router.get("")
 def list_orders(status: str = None, page: int = 1, limit: int = 10,
-                db: Session = Depends(get_db)):
+                db: Session = Depends(get_db),
+                _admin: dict = Depends(require_admin)):
     if page < 1:
         page = 1
     if limit < 1:
@@ -187,7 +189,8 @@ def list_orders(status: str = None, page: int = 1, limit: int = 10,
 
 @router.patch("/{order_id}/status")
 def update_status(order_id: int, body: UpdateStatusIn,
-                  db: Session = Depends(get_db)):
+                  db: Session = Depends(get_db),
+                  _admin: dict = Depends(require_admin)):
     if body.status not in ORDER_STATUSES:
         raise HTTPException(
             status_code=400,

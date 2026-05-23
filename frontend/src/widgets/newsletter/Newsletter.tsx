@@ -17,10 +17,10 @@ export function Newsletter() {
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>БУДЬТЕ В КУРСЕ</h2>
+        <h2 className={styles.title}>НОВИНКИ И АКЦИИ</h2>
         <p className={styles.text}>
-          Получайте технические обзоры, обновления каталога и приглашения на
-          профильные мероприятия — прямо на ваш e-mail.
+          Раз в месяц присылаем новые товары и скидки. Без спама — отписаться
+          можно в один клик.
         </p>
         {submitted ? (
           <p className={styles.confirm}>

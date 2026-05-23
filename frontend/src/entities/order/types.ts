@@ -1,5 +1,5 @@
 export type DeliveryMethod = 'courier' | 'pickup'
-export type PaymentMethod = 'card_online' | 'invoice'
+export type PaymentMethod = 'card_online' | 'cash'
 
 export type CheckoutForm = {
   customerName: string

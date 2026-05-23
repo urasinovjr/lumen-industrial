@@ -1,0 +1,211 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f5f7;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 264px;
+  flex-shrink: 0;
+  padding: 28px 20px;
+  background: var(--color-surface);
+  border-right: 1px solid #ececec;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 36px;
+}
+
+.brandTitle {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+}
+
+.brandSub {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--color-accent);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.navLink:hover {
+  background: #faf9f7;
+}
+
+.navLinkActive {
+  background: #fdf4e3;
+  color: var(--color-text);
+  border-color: #f0dcb0;
+}
+
+.sidebarBottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 24px;
+}
+
+.reportButton {
+  padding: 13px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-accent);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.sidebarMuted {
+  padding: 0 4px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.sidebarLogout {
+  padding: 0 4px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebarLogout:hover {
+  color: var(--color-text);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+  padding: 0 32px;
+  background: var(--color-surface);
+  border-bottom: 1px solid #ececec;
+}
+
+.topbarBrand {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.adminInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.adminName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.adminRole {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.logoutButton {
+  padding: 9px 16px;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  background: var(--color-surface);
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.content {
+  flex: 1;
+  padding: 32px;
+}
+
+@media (max-width: 720px) {
+  .shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .brand {
+    margin-bottom: 0;
+  }
+
+  .nav {
+    flex-direction: row;
+  }
+
+  .sidebarBottom {
+    margin-top: 0;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 0;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}

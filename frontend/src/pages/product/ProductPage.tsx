@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import type { SyntheticEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { addToCart } from '../../entities/cart'
@@ -54,7 +55,7 @@ export default function ProductPage() {
   const fallback = productImagePlaceholder(product.categoryId)
   const mainImage = product.imageUrl ?? fallback
 
-  function handleImageError(event: React.SyntheticEvent<HTMLImageElement>) {
+  function handleImageError(event: SyntheticEvent<HTMLImageElement>) {
     const img = event.currentTarget
     if (img.src.endsWith(fallback)) return
     img.src = fallback
@@ -153,7 +154,7 @@ export default function ProductPage() {
           <ul className={styles.benefits}>
             <li>
               <span className={styles.benefitDot} aria-hidden="true">●</span>
-              Промышленный стандарт упаковки (5 шт. в боксе)
+              Упаковка по 5 штук в коробке
             </li>
             <li>
               <span className={styles.benefitDot} aria-hidden="true">●</span>
@@ -161,7 +162,7 @@ export default function ProductPage() {
             </li>
             <li>
               <span className={styles.benefitDot} aria-hidden="true">●</span>
-              Подбор аналогов 1–2 рабочих дня
+              Поможем подобрать аналог за 1–2 дня
             </li>
           </ul>
         </div>

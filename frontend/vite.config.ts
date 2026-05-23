@@ -12,6 +12,7 @@ export default defineConfig({
       '/uploads': { target: 'http://localhost:3001', changeOrigin: true },
       '/api/cart': { target: 'http://localhost:3002', changeOrigin: true },
       '/api/orders': { target: 'http://localhost:3002', changeOrigin: true },
+      '/api/admin': { target: 'http://localhost:3003', changeOrigin: true },
     },
   },
   css: {

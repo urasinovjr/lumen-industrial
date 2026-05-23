@@ -1,10 +1,10 @@
 import styles from './Footer.module.css'
 
 const FOOTER_LINKS = [
-  { href: '/gallery', label: 'Галерея проектов' },
-  { href: '/wholesale', label: 'Оптовые поставки' },
-  { href: '/docs', label: 'Документация' },
-  { href: '/support', label: 'Техподдержка' },
+  { href: '/about', label: 'О компании' },
+  { href: '/delivery', label: 'Доставка и оплата' },
+  { href: '/wholesale', label: 'Оптовикам' },
+  { href: '/contacts', label: 'Контакты' },
 ]
 
 export function Footer() {

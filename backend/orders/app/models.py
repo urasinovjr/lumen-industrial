@@ -48,19 +48,16 @@ class Order(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True)
-    order_number = Column(String(20), nullable=False, unique=True)  # формат ORD-YYYYMMDD-NNNN
+    order_number = Column(String(20), nullable=False, unique=True)
 
-    # Покупатель
     customer_name = Column(String(255), nullable=False)
     customer_phone = Column(String(20), nullable=False)
     customer_email = Column(String(255), nullable=False)
 
-    # Доставка
     delivery_city = Column(String(255), nullable=False)
     delivery_address = Column(Text, nullable=False)
     delivery_method = Column(Enum(*DELIVERY_METHODS, name="delivery_method"), nullable=False)
 
-    # Оплата
     payment_method = Column(Enum(*PAYMENT_METHODS, name="payment_method"), nullable=False)
 
     status = Column(Enum(*ORDER_STATUSES, name="order_status"), nullable=False, default="new")

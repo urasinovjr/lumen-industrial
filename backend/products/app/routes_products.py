@@ -6,11 +6,12 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Product, Category
 from app.schemas import ProductIn, ProductUpdate
+from app.auth import require_admin
 
 router = APIRouter()
 
 ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"]
-MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5 МБ
+MAX_IMAGE_SIZE = 5 * 1024 * 1024
 UPLOAD_FOLDER = "uploads/products"
 
 
@@ -72,7 +73,11 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("", status_code=201)
-def create_product(body: ProductIn, db: Session = Depends(get_db)):
+def create_product(
+    body: ProductIn,
+    db: Session = Depends(get_db),
+    _admin: dict = Depends(require_admin),
+):
     category = db.query(Category).filter(Category.id == body.category_id).first()
     if category is None:
         raise HTTPException(status_code=400, detail=f"Категория {body.category_id} не найдена")
@@ -97,7 +102,12 @@ def create_product(body: ProductIn, db: Session = Depends(get_db)):
 
 
 @router.put("/{product_id}")
-def update_product(product_id: int, body: ProductUpdate, db: Session = Depends(get_db)):
+def update_product(
+    product_id: int,
+    body: ProductUpdate,
+    db: Session = Depends(get_db),
+    _admin: dict = Depends(require_admin),
+):
     product = db.query(Product).filter(Product.id == product_id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="Товар не найден")
@@ -117,7 +127,11 @@ def update_product(product_id: int, body: ProductUpdate, db: Session = Depends(g
 
 
 @router.delete("/{product_id}")
-def delete_product(product_id: int, db: Session = Depends(get_db)):
+def delete_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+    _admin: dict = Depends(require_admin),
+):
     product = db.query(Product).filter(Product.id == product_id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="Товар не найден")
@@ -128,7 +142,8 @@ def delete_product(product_id: int, db: Session = Depends(get_db)):
 
 @router.post("/{product_id}/image")
 def upload_image(product_id: int, file: UploadFile = File(...),
-                 db: Session = Depends(get_db)):
+                 db: Session = Depends(get_db),
+                 _admin: dict = Depends(require_admin)):
     product = db.query(Product).filter(Product.id == product_id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="Товар не найден")
@@ -154,7 +169,6 @@ def upload_image(product_id: int, file: UploadFile = File(...),
     ext = ext_map[file.content_type]
     filename = f"product-{product_id}-{uuid.uuid4().hex[:12]}{ext}"
 
-    # Сохраняем
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
     full_path = os.path.join(UPLOAD_FOLDER, filename)

@@ -73,10 +73,10 @@ export default function CartPage() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <p className={styles.eyebrow}>ТЕРМИНАЛ ЗАКУПОК</p>
+        <p className={styles.eyebrow}>ВАШИ ПОКУПКИ</p>
         <h1 className={styles.title}>Ваша корзина</h1>
         <p className={styles.subtitle}>
-          Проверьте товары, подготовленные к заказу.
+          Проверьте товары перед оформлением заказа.
         </p>
       </header>
 
@@ -109,7 +109,7 @@ export default function CartPage() {
                     {item.name}
                   </Link>
                   <p className={styles.itemDescription}>
-                    Промышленный стандарт упаковки, гарантия производителя.
+                    Гарантия производителя, доставка со склада.
                   </p>
                 </div>
                 <div className={styles.itemControls}>
@@ -131,7 +131,7 @@ export default function CartPage() {
                   </button>
                 </div>
                 <div className={styles.itemPrice}>
-                  <span className={styles.itemPriceLabel}>Цена в RUB</span>
+                  <span className={styles.itemPriceLabel}>Стоимость</span>
                   <span className={styles.itemPriceValue}>
                     {formatPrice(item.subtotal)} ₽
                   </span>
@@ -149,15 +149,15 @@ export default function CartPage() {
           <h2 className={styles.summaryTitle}>Детали заказа</h2>
           <dl className={styles.summaryList}>
             <div>
-              <dt>Подытог товаров</dt>
+              <dt>Товары</dt>
               <dd>{formatPrice(total)} ₽</dd>
             </div>
             <div>
-              <dt>Промышленная доставка</dt>
+              <dt>Доставка</dt>
               <dd>{formatPrice(DELIVERY_PRICE)} ₽</dd>
             </div>
             <div>
-              <dt>Налог (НДС 20%)</dt>
+              <dt>НДС 20%</dt>
               <dd>{formatPrice(tax)} ₽</dd>
             </div>
           </dl>
@@ -175,9 +175,9 @@ export default function CartPage() {
               <IconPackage width={20} height={20} />
             </span>
             <p>
-              Бесплатная упаковка
+              Бесплатная доставка
               <br />
-              для заказа от 50 000 ₽.
+              при заказе от 50 000 ₽.
             </p>
           </div>
         </aside>

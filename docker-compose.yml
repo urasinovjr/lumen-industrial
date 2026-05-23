@@ -35,10 +35,84 @@ services:
       timeout: 3s
       retries: 20
 
+  admin-postgres:
+    image: postgres:16
+    container_name: lumen_admin_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lumen_admin
+      POSTGRES_USER: lumen
+      POSTGRES_PASSWORD: lumen_pass
+    ports:
+      - "5438:5432"
+    volumes:
+      - admin_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lumen -d lumen_admin"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  products:
+    build: ./backend/products
+    container_name: lumen_products
+    restart: unless-stopped
+    command: sh -c "alembic upgrade head && python seed.py && uvicorn app.main:app --host 0.0.0.0 --port 3001"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://lumen:lumen_pass@products-postgres:5432/lumen_products
+      JWT_SECRET: lumen-dev-jwt-secret-change-me
+    ports:
+      - "3001:3001"
+    depends_on:
+      products-postgres:
+        condition: service_healthy
+
+  orders:
+    build: ./backend/orders
+    container_name: lumen_orders
+    restart: unless-stopped
+    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 3002"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://lumen:lumen_pass@orders-postgres:5432/lumen_orders
+      PRODUCTS_SERVICE_URL: http://products:3001
+      JWT_SECRET: lumen-dev-jwt-secret-change-me
+    ports:
+      - "3002:3002"
+    depends_on:
+      orders-postgres:
+        condition: service_healthy
+      products:
+        condition: service_started
+
+  admin:
+    build: ./backend/admin
+    container_name: lumen_admin
+    restart: unless-stopped
+    command: sh -c "alembic upgrade head && python seed.py && uvicorn app.main:app --host 0.0.0.0 --port 3003"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://lumen:lumen_pass@admin-postgres:5432/lumen_admin
+      JWT_SECRET: lumen-dev-jwt-secret-change-me
+    ports:
+      - "3003:3003"
+    depends_on:
+      admin-postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    container_name: lumen_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - products
+      - orders
+      - admin
+
 volumes:
   products_data:
-    external: true
     name: lumen-products_postgres_data
   orders_data:
-    external: true
     name: lumen-orders_postgres_data
+  admin_data:
+    name: lumen-admin_postgres_data

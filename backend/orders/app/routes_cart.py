@@ -28,7 +28,6 @@ def build_cart_response(cart, db):
     for item in cart.items:
         product = get_product(item.product_id)
         if product is None:
-            # Товар удалили - просто пропускаем эту позицию
             continue
         price = float(product["price"])
         subtotal = price * item.quantity
@@ -67,7 +66,7 @@ def add_item(body: AddItemIn,
     if cart is None:
         cart = Cart(session_id=session_id)
         db.add(cart)
-        db.flush()  # чтобы у cart появился id
+        db.flush()
 
     existing = None
     for it in cart.items:
@@ -138,7 +137,6 @@ def remove_item(item_id: int,
 @router.delete("")
 def clear_cart(session_id: str = Depends(get_session_id),
                db: Session = Depends(get_db)):
-    """Очистить корзину полностью."""
     cart = find_cart(db, session_id)
     if cart is None:
         return {"cart": {"id": None, "items": [], "total": 0.0}}

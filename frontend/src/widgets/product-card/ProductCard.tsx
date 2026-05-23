@@ -1,3 +1,4 @@
+import type { SyntheticEvent } from 'react'
 import { Link } from 'react-router-dom'
 import type { Product } from '../../entities/product'
 import { formatPrice } from '../../entities/order'
@@ -6,13 +7,14 @@ import styles from './ProductCard.module.css'
 
 type ProductCardProps = {
   product: Product
+  series?: string
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, series }: ProductCardProps) {
   const fallback = productImagePlaceholder(product.categoryId)
   const src = product.imageUrl ?? fallback
 
-  function handleError(event: React.SyntheticEvent<HTMLImageElement>) {
+  function handleError(event: SyntheticEvent<HTMLImageElement>) {
     const img = event.currentTarget
     if (img.src.endsWith(fallback)) return
     img.src = fallback
@@ -30,6 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
         />
       </div>
       <div className={styles.body}>
+        {series && <span className={styles.series}>{series}</span>}
         <h3 className={styles.name}>{product.name}</h3>
         <div className={styles.footerRow}>
           <span className={styles.price}>{formatPrice(product.price)} ₽</span>

@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from app.database import get_db
 from app.models import Category
 from app.schemas import CategoryIn
+from app.auth import require_admin
 
 router = APIRouter()
 
@@ -12,14 +13,16 @@ router = APIRouter()
 @router.get("")
 def list_categories(db: Session = Depends(get_db)):
     rows = db.query(Category).order_by(Category.id).all()
-    result = []
-    for c in rows:
-        result.append({"id": c.id, "name": c.name})
+    result = [{"id": c.id, "name": c.name} for c in rows]
     return {"categories": result}
 
 
 @router.post("", status_code=201)
-def create_category(body: CategoryIn, db: Session = Depends(get_db)):
+def create_category(
+    body: CategoryIn,
+    db: Session = Depends(get_db),
+    _admin: dict = Depends(require_admin),
+):
     name = body.name.strip()
     if not name:
         raise HTTPException(status_code=400, detail="Название не может быть пустым")

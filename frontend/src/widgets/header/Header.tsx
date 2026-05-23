@@ -1,14 +1,14 @@
-import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import type { FormEvent } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { IconCart, IconHeart, IconSearch, IconUser, Logo } from '../../shared/ui'
 import { useAppSelector } from '../../app/hooks'
 import styles from './Header.module.css'
 
 const NAV_ITEMS = [
-  { to: '/catalog', label: 'Продукты' },
-  { to: '/gallery', label: 'Галерея проектов' },
-  { to: '/support', label: 'Техподдержка' },
+  { to: '/catalog', label: 'Каталог' },
+  { to: '/delivery', label: 'Доставка' },
+  { to: '/contacts', label: 'Контакты' },
 ]
 
 export function Header() {
@@ -74,10 +74,10 @@ export function Header() {
           <input
             type="search"
             className={styles.searchInput}
-            placeholder="Поиск артикула"
+            placeholder="Поиск по каталогу"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            aria-label="Поиск артикула"
+            aria-label="Поиск по каталогу"
           />
         </form>
 

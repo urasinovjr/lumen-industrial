@@ -3,8 +3,7 @@ import type { FormEvent } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchCart, resetCart } from '../../entities/cart'
-import { submitOrder } from '../../entities/order'
-import { formatPrice } from '../../entities/order'
+import { formatPrice, submitOrder } from '../../entities/order'
 import type {
   CheckoutForm,
   DeliveryMethod,
@@ -30,13 +29,13 @@ const DELIVERY_OPTIONS: RadioOption[] = [
   {
     value: 'courier',
     label: 'Стандартная доставка',
-    description: 'Курьер до пункта приёмки, 2–3 рабочих дня',
+    description: 'Курьером до двери, 2–3 рабочих дня',
     hint: '+ 1 450 ₽',
   },
   {
     value: 'pickup',
     label: 'Самовывоз',
-    description: 'Терминал отгрузки, ул. Промышленная, 7',
+    description: 'Со склада, ул. Промышленная, 7',
     hint: 'Бесплатно',
   },
 ]
@@ -48,9 +47,9 @@ const PAYMENT_OPTIONS: RadioOption[] = [
     description: 'Банковская карта, СБП',
   },
   {
-    value: 'invoice',
-    label: 'Счёт на оплату',
-    description: 'Безналичный расчёт для юр. лиц',
+    value: 'cash',
+    label: 'Оплата при получении',
+    description: 'Наличными или картой курьеру',
   },
 ]
 
@@ -130,13 +129,11 @@ export default function CheckoutPage() {
     setErrors(next)
     if (Object.keys(next).length > 0) return
 
-    try {
-      const order = await dispatch(submitOrder(form)).unwrap()
+    const result = await dispatch(submitOrder(form))
+    if (submitOrder.fulfilled.match(result)) {
       setSubmitted(true)
       dispatch(resetCart())
-      navigate(`/confirmation/${order.orderNumber}`)
-    } catch {
-      // ошибка уже сохранена в orders state
+      navigate(`/confirmation/${result.payload.orderNumber}`)
     }
   }
 
@@ -149,7 +146,7 @@ export default function CheckoutPage() {
       <header className={styles.header}>
         <h1 className={styles.title}>Оформление заказа</h1>
         <p className={styles.subtitle}>
-          Проверьте параметры доставки и завершите оформление.
+          Укажите контакты и адрес — и подтвердите заказ.
         </p>
       </header>
 
@@ -184,7 +181,7 @@ export default function CheckoutPage() {
               />
             </div>
             <Input
-              label="Рабочий e-mail"
+              label="E-mail"
               type="email"
               value={form.customerEmail}
               onChange={(e) => update('customerEmail', e.target.value)}
@@ -203,7 +200,7 @@ export default function CheckoutPage() {
               Адрес доставки
             </legend>
             <Input
-              label="Город / производственная зона"
+              label="Город"
               value={form.deliveryCity}
               onChange={(e) => update('deliveryCity', e.target.value)}
               error={errors.deliveryCity}
@@ -323,8 +320,7 @@ export default function CheckoutPage() {
               <IconPhone width={20} height={20} />
             </span>
             <p>
-              Нужна консультация инженера? Свяжемся в течение часа после
-              подтверждения.
+              Появились вопросы? Перезвоним в течение часа после оформления.
             </p>
           </div>
         </aside>

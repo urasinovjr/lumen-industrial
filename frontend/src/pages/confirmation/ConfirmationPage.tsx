@@ -62,8 +62,7 @@ export default function ConfirmationPage() {
         </span>
         <h1 className={styles.title}>ЗАКАЗ ПОДТВЕРЖДЁН</h1>
         <p className={styles.subtitle}>
-          Ваш заказ принят в работу. Подтверждение и счёт мы отправили на
-          указанный e-mail.
+          Заказ принят. Подтверждение мы отправили на ваш e-mail.
         </p>
         <p className={styles.orderNumber}>
           НОМЕР ЗАКАЗА: <strong>{order.orderNumber}</strong>
@@ -98,7 +97,7 @@ export default function ConfirmationPage() {
           </p>
           {deliveryPrice > 0 && (
             <p className={styles.cardSummary}>
-              Промышленная доставка: <strong>{formatPrice(deliveryPrice)} ₽</strong>
+              Доставка: <strong>{formatPrice(deliveryPrice)} ₽</strong>
             </p>
           )}
           <hr className={styles.divider} />
@@ -119,7 +118,7 @@ export default function ConfirmationPage() {
           </h2>
           {order.deliveryMethod === 'pickup' ? (
             <p className={styles.cardText}>
-              Самовывоз: терминал отгрузки, ул. Промышленная, 7.
+              Самовывоз со склада: ул. Промышленная, 7.
             </p>
           ) : (
             <p className={styles.cardText}>
@@ -140,7 +139,7 @@ export default function ConfirmationPage() {
           size="large"
           onClick={() =>
             alert(
-              `Трекинг по заказу ${order.orderNumber} будет доступен после отгрузки.`,
+              `Отслеживание заказа ${order.orderNumber} появится после отгрузки.`,
             )
           }
         >
@@ -158,7 +157,7 @@ export default function ConfirmationPage() {
         <div className={styles.trackingInfo}>
           <span className={styles.trackingTag}>СТАТУС</span>
           <p className={styles.trackingText}>
-            Заказ подготавливается в распределительном центре A-1.
+            Заказ собирается на складе.
           </p>
         </div>
       </section>
