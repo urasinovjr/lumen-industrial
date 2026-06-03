@@ -11,6 +11,14 @@ import {
 } from '../../shared/ui'
 import styles from './ConfirmationPage.module.css'
 
+const STATUS_TEXT: Record<string, string> = {
+  new: 'Заказ принят и собирается на складе.',
+  processing: 'Заказ обрабатывается.',
+  shipped: 'Заказ передан в доставку.',
+  delivered: 'Заказ доставлен.',
+  cancelled: 'Заказ отменён.',
+}
+
 export default function ConfirmationPage() {
   const { orderNumber } = useParams<{ orderNumber: string }>()
   const dispatch = useAppDispatch()
@@ -135,20 +143,8 @@ export default function ConfirmationPage() {
       </div>
 
       <div className={styles.actions}>
-        <Button
-          size="large"
-          onClick={() =>
-            alert(
-              `Отслеживание заказа ${order.orderNumber} появится после отгрузки.`,
-            )
-          }
-        >
-          Отследить заказ
-        </Button>
         <Link to="/catalog" className={styles.backLink}>
-          <Button variant="secondary" size="large">
-            В каталог
-          </Button>
+          <Button size="large">В каталог</Button>
         </Link>
       </div>
 
@@ -157,7 +153,7 @@ export default function ConfirmationPage() {
         <div className={styles.trackingInfo}>
           <span className={styles.trackingTag}>СТАТУС</span>
           <p className={styles.trackingText}>
-            Заказ собирается на складе.
+            {STATUS_TEXT[order.status] ?? 'Заказ принят.'}
           </p>
         </div>
       </section>

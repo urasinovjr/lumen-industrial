@@ -66,6 +66,21 @@ def test_list_products_limit_clamped(client, category_id, product_payload):
     assert response.json()["limit"] == 100
 
 
+def test_list_products_hides_inactive_by_default(client, category_id, product_payload):
+    client.post("/api/products", json=product_payload(category_id, name="Активная лампа"))
+    hidden = client.post(
+        "/api/products", json=product_payload(category_id, name="Снятая лампа")
+    ).json()
+    client.put(f"/api/products/{hidden['id']}", json={"is_active": False})
+
+    public = client.get("/api/products").json()
+    assert public["total"] == 1
+    assert public["products"][0]["name"] == "Активная лампа"
+
+    full = client.get("/api/products?include_inactive=true").json()
+    assert full["total"] == 2
+
+
 def test_update_product(client, category_id, product_payload):
     created = client.post("/api/products", json=product_payload(category_id)).json()
     response = client.put(

@@ -120,7 +120,7 @@ export default function ProductPage() {
             )}
             {product.colorTemp != null && product.colorTemp > 0 && (
               <div className={styles.specItem}>
-                <dt>Цвет</dt>
+                <dt>Цветовая температура</dt>
                 <dd>{product.colorTemp}K</dd>
               </div>
             )}
@@ -134,20 +134,26 @@ export default function ProductPage() {
 
           <p className={styles.price}>{formatPrice(product.price)} ₽</p>
 
-          <div className={styles.actions}>
-            <QuantityInput
-              value={quantity}
-              onChange={setQuantity}
-              max={product.stock}
-            />
-            <Button
-              size="large"
-              onClick={handleAddToCart}
-              disabled={adding || product.stock <= 0}
-            >
-              {adding ? 'Добавляем…' : 'В корзину'}
-            </Button>
-          </div>
+          {product.stock > 0 ? (
+            <>
+              <p className={styles.stockNote}>В наличии: {product.stock} шт.</p>
+              <div className={styles.actions}>
+                <QuantityInput
+                  value={quantity}
+                  onChange={(next) =>
+                    setQuantity(Math.min(Math.max(1, next), product.stock))
+                  }
+                  min={1}
+                  max={product.stock}
+                />
+                <Button size="large" onClick={handleAddToCart} disabled={adding}>
+                  {adding ? 'Добавляем…' : 'В корзину'}
+                </Button>
+              </div>
+            </>
+          ) : (
+            <p className={styles.outOfStock}>Нет в наличии</p>
+          )}
 
           {addError && <p className={styles.notFound}>{addError}</p>}
 

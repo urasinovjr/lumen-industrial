@@ -39,6 +39,7 @@ export default function AdminOrdersPage() {
   const [page, setPage] = useState(1)
   const [statusFilter, setStatusFilter] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [loaded, setLoaded] = useState(false)
   const [detail, setDetail] = useState<{ id: number; orderNumber: string } | null>(null)
 
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
@@ -57,6 +58,7 @@ export default function AdminOrdersPage() {
       .catch((err) => {
         setError(err instanceof Error ? err.message : 'Не удалось загрузить заказы')
       })
+      .finally(() => setLoaded(true))
   }, [statusFilter, page])
 
   useEffect(() => {
@@ -106,7 +108,10 @@ export default function AdminOrdersPage() {
           <span className={styles.actionsHead}>Действия</span>
         </div>
 
-        {orders.length === 0 && <p className={styles.empty}>Заказы не найдены.</p>}
+        {!loaded && <p className={styles.empty}>Загрузка…</p>}
+        {loaded && orders.length === 0 && (
+          <p className={styles.empty}>Заказы не найдены.</p>
+        )}
 
         {orders.map((order) => (
           <div key={order.id} className={styles.row}>

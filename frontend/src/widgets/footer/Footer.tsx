@@ -1,10 +1,9 @@
+import { Link } from 'react-router-dom'
 import styles from './Footer.module.css'
 
 const FOOTER_LINKS = [
-  { href: '/about', label: 'О компании' },
-  { href: '/delivery', label: 'Доставка и оплата' },
-  { href: '/wholesale', label: 'Оптовикам' },
-  { href: '/contacts', label: 'Контакты' },
+  { to: '/catalog', label: 'Каталог' },
+  { to: '/cart', label: 'Корзина' },
 ]
 
 export function Footer() {
@@ -14,10 +13,10 @@ export function Footer() {
         <p className={styles.copyright}>© 2026 LUMEN INDUSTRIAL</p>
         <ul className={styles.links}>
           {FOOTER_LINKS.map((link) => (
-            <li key={link.href}>
-              <a className={styles.link} href={link.href}>
+            <li key={link.to}>
+              <Link className={styles.link} to={link.to}>
                 {link.label.toUpperCase()}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

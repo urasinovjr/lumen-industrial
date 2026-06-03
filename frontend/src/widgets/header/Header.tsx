@@ -1,23 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { IconCart, IconHeart, IconSearch, IconUser, Logo } from '../../shared/ui'
-import { useAppSelector } from '../../app/hooks'
+import { IconCart, IconSearch, Logo } from '../../shared/ui'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { fetchCart } from '../../entities/cart'
 import styles from './Header.module.css'
 
-const NAV_ITEMS = [
-  { to: '/catalog', label: 'Каталог' },
-  { to: '/delivery', label: 'Доставка' },
-  { to: '/contacts', label: 'Контакты' },
-]
+const NAV_ITEMS = [{ to: '/catalog', label: 'Каталог' }]
 
 export function Header() {
+  const dispatch = useAppDispatch()
   const totalCount = useAppSelector((state) =>
     state.cart.items.reduce((sum, item) => sum + item.quantity, 0),
   )
   const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  useEffect(() => {
+    dispatch(fetchCart())
+  }, [dispatch])
 
   function handleSearchSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -85,13 +87,6 @@ export function Header() {
           <button
             type="button"
             className={styles.iconBtn}
-            aria-label="Избранное"
-          >
-            <IconHeart width={20} height={20} />
-          </button>
-          <button
-            type="button"
-            className={styles.iconBtn}
             aria-label={`Корзина, ${totalCount} товаров`}
             onClick={() => navigate('/cart')}
           >
@@ -99,9 +94,6 @@ export function Header() {
             {totalCount > 0 && (
               <span className={styles.cartBadge}>{totalCount}</span>
             )}
-          </button>
-          <button type="button" className={styles.iconBtn} aria-label="Профиль">
-            <IconUser width={20} height={20} />
           </button>
         </div>
       </div>

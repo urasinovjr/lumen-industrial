@@ -1,4 +1,3 @@
-import { Button } from '../../shared/ui'
 import styles from './PromoBanner.module.css'
 
 export function PromoBanner() {
@@ -14,7 +13,6 @@ export function PromoBanner() {
         Отгружаем партии от 100 штук со склада. Поможем подобрать лампы под
         ваш объект и согласуем цену.
       </p>
-      <Button variant="secondary">Оставить заявку</Button>
     </article>
   )
 }

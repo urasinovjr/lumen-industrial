@@ -61,10 +61,7 @@ export default function AdminLoginPage() {
           </label>
 
           <label className={styles.field}>
-            <span className={styles.labelRow}>
-              <span className={styles.label}>Пароль</span>
-              <span className={styles.restore}>Забыли пароль?</span>
-            </span>
+            <span className={styles.label}>Пароль</span>
             <span className={styles.passwordWrap}>
               <input
                 className={styles.input}
@@ -83,11 +80,6 @@ export default function AdminLoginPage() {
                 {showPassword ? 'Скрыть' : 'Показать'}
               </button>
             </span>
-          </label>
-
-          <label className={styles.trust}>
-            <input type="checkbox" />
-            Запомнить меня на 24 часа
           </label>
 
           {status === 'failed' && error && <p className={styles.error}>{error}</p>}

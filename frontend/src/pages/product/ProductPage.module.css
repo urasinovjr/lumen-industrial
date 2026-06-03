@@ -164,6 +164,19 @@
   margin: 8px 0;
 }
 
+.stockNote {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 0 0 12px;
+}
+
+.outOfStock {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-danger);
+  margin: 8px 0;
+}
+
 .actions {
   display: flex;
   align-items: stretch;

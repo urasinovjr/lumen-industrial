@@ -9,7 +9,7 @@ type ProductFormModalProps = {
   initial: Product | null
   categories: Category[]
   onClose: () => void
-  onSubmit: (form: ProductForm) => Promise<void>
+  onSubmit: (form: ProductForm, file: File | null) => Promise<void>
 }
 
 export function ProductFormModal({
@@ -33,6 +33,7 @@ export function ProductFormModal({
     initial?.lifespan != null ? String(initial.lifespan) : '',
   )
   const [stock, setStock] = useState(initial ? String(initial.stock) : '')
+  const [imageFile, setImageFile] = useState<File | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -45,17 +46,20 @@ export function ProductFormModal({
     setSubmitting(true)
     setError(null)
     try {
-      await onSubmit({
-        name: name.trim(),
-        description: description.trim(),
-        categoryId: Number(categoryId),
-        price: Number(price),
-        power: Number(power) || 0,
-        socketType: socketType.trim(),
-        colorTemp: Number(colorTemp) || 0,
-        lifespan: Number(lifespan) || 0,
-        stock: Number(stock) || 0,
-      })
+      await onSubmit(
+        {
+          name: name.trim(),
+          description: description.trim(),
+          categoryId: Number(categoryId),
+          price: Number(price),
+          power: Number(power) || 0,
+          socketType: socketType.trim(),
+          colorTemp: Number(colorTemp) || 0,
+          lifespan: Number(lifespan) || 0,
+          stock: Number(stock) || 0,
+        },
+        imageFile,
+      )
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Не удалось сохранить товар')
       setSubmitting(false)
@@ -180,6 +184,21 @@ export function ProductFormModal({
               />
             </label>
           </div>
+
+          <label className={styles.field}>
+            <span className={styles.label}>Изображение</span>
+            <input
+              className={styles.input}
+              type="file"
+              accept="image/*"
+              onChange={(event) => setImageFile(event.target.files?.[0] ?? null)}
+            />
+            {initial?.imageUrl && !imageFile && (
+              <span className={styles.hint}>
+                Текущее изображение сохранится, если не выбирать новое.
+              </span>
+            )}
+          </label>
 
           {error && <p className={styles.error}>{error}</p>}
 

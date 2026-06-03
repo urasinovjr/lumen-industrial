@@ -12,6 +12,8 @@ DELIVERY_METHODS = ("pickup", "courier")
 PAYMENT_METHODS = ("card_online", "cash")
 ORDER_STATUSES = ("new", "processing", "shipped", "delivered", "cancelled")
 
+DELIVERY_PRICES = {"pickup": 0, "courier": 1450}
+
 
 class Cart(Base):
     __tablename__ = "carts"

@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { listCategories, listProducts } from '../../../shared/api/productsApi'
-import { createProduct, deleteProduct, updateProduct } from '../../../shared/api/adminApi'
+import {
+  createProduct,
+  deleteProduct,
+  updateProduct,
+  uploadProductImage,
+} from '../../../shared/api/adminApi'
 import { productImagePlaceholder } from '../../../shared/api/client'
 import { formatPrice } from '../../../entities/order'
 import type { Category, Product } from '../../../entities/product'
@@ -29,6 +34,7 @@ export default function AdminProductsPage() {
       limit: PAGE_SIZE,
       search: search || undefined,
       categoryId: categoryId ?? undefined,
+      includeInactive: true,
     })
       .then((result) => {
         setProducts(result.products)
@@ -65,11 +71,16 @@ export default function AdminProductsPage() {
     setModalOpen(true)
   }
 
-  async function handleSubmit(form: ProductForm) {
+  async function handleSubmit(form: ProductForm, file: File | null) {
+    let productId: number
     if (editing) {
       await updateProduct(editing.id, form)
+      productId = editing.id
     } else {
-      await createProduct(form)
+      productId = await createProduct(form)
+    }
+    if (file) {
+      await uploadProductImage(productId, file)
     }
     setModalOpen(false)
     setEditing(null)
@@ -80,8 +91,12 @@ export default function AdminProductsPage() {
     if (!window.confirm(`Удалить товар «${product.name}»?`)) {
       return
     }
-    await deleteProduct(product.id)
-    await loadProducts()
+    try {
+      await deleteProduct(product.id)
+      await loadProducts()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Не удалось удалить товар')
+    }
   }
 
   return (

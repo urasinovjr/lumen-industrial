@@ -18,10 +18,19 @@ def test_create_order(client, session_headers, order_body):
     assert re.match(r"^ORD-\d{8}-\d{4}$", body["order_number"])
     assert body["status"] == "new"
     assert body["payment_method"] == "cash"
-    assert body["total"] == 523.0
+    assert body["total"] == 1973.0
     assert len(body["items"]) == 2
     cart = client.get("/api/cart", headers=session_headers).json()["cart"]
     assert cart["items"] == []
+
+
+def test_create_order_pickup_has_no_delivery_fee(client, session_headers, order_body):
+    add_to_cart(client, session_headers, product_id=1, quantity=2)
+    add_to_cart(client, session_headers, product_id=2, quantity=1)
+    order_body["delivery_method"] = "pickup"
+    response = client.post("/api/orders", json=order_body, headers=session_headers)
+    assert response.status_code == 201
+    assert response.json()["total"] == 523.0
 
 
 def test_create_order_empty_cart(client, session_headers, order_body):

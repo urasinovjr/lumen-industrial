@@ -43,6 +43,7 @@ def product_to_dict(product):
 @router.get("")
 def list_products(category_id: int = None, search: str = None,
                   page: int = 1, limit: int = 10,
+                  include_inactive: bool = False,
                   db: Session = Depends(get_db)):
     if page < 1:
         page = 1
@@ -52,6 +53,8 @@ def list_products(category_id: int = None, search: str = None,
         limit = 100
 
     query = db.query(Product)
+    if not include_inactive:
+        query = query.filter(Product.is_active.is_(True))
     if category_id:
         query = query.filter(Product.category_id == category_id)
     if search:

@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import (
     Cart, Order, OrderItem,
-    DELIVERY_METHODS, PAYMENT_METHODS, ORDER_STATUSES,
+    DELIVERY_METHODS, PAYMENT_METHODS, ORDER_STATUSES, DELIVERY_PRICES,
 )
 from app.schemas import CreateOrderIn, UpdateStatusIn
 from app.products_client import get_product
@@ -125,6 +125,8 @@ def create_order(body: CreateOrderIn,
             product_price=price,
             quantity=cart_item.quantity,
         ))
+
+    total += DELIVERY_PRICES[body.delivery_method]
 
     new_order = Order(
         order_number=generate_order_number(db),

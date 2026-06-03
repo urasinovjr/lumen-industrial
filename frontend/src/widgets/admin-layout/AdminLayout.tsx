@@ -38,10 +38,6 @@ export function AdminLayout() {
         </nav>
 
         <div className={styles.sidebarBottom}>
-          <button type="button" className={styles.reportButton}>
-            Создать отчёт
-          </button>
-          <span className={styles.sidebarMuted}>Настройки</span>
           <button type="button" className={styles.sidebarLogout} onClick={handleLogout}>
             Выйти
           </button>

@@ -2,17 +2,17 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
+  clearCart,
   fetchCart,
   removeFromCart,
   setCartItemQuantity,
 } from '../../entities/cart'
-import { formatPrice } from '../../entities/order'
+import { DELIVERY_PRICES, formatPrice, includedTax } from '../../entities/order'
 import { Button, IconPackage, QuantityInput } from '../../shared/ui'
 import { productImagePlaceholder } from '../../shared/api/client'
 import styles from './CartPage.module.css'
 
-const DELIVERY_PRICE = 4950
-const TAX_RATE = 0.2
+const DELIVERY_PRICE = DELIVERY_PRICES.courier
 
 export default function CartPage() {
   const dispatch = useAppDispatch()
@@ -25,8 +25,8 @@ export default function CartPage() {
     dispatch(fetchCart())
   }, [dispatch])
 
-  const tax = Math.round(total * TAX_RATE)
-  const finalTotal = total + DELIVERY_PRICE + tax
+  const finalTotal = total + DELIVERY_PRICE
+  const tax = includedTax(finalTotal)
 
   if (status === 'loading' && items.length === 0) {
     return (
@@ -140,9 +140,19 @@ export default function CartPage() {
             )
           })}
 
-          <Link to="/catalog" className={styles.continue}>
-            ← Вернуться к покупкам
-          </Link>
+          <div className={styles.itemsActions}>
+            <Link to="/catalog" className={styles.continue}>
+              ← Вернуться к покупкам
+            </Link>
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onClick={() => dispatch(clearCart())}
+              disabled={mutating}
+            >
+              Очистить корзину
+            </button>
+          </div>
         </section>
 
         <aside className={styles.summary}>
@@ -153,11 +163,11 @@ export default function CartPage() {
               <dd>{formatPrice(total)} ₽</dd>
             </div>
             <div>
-              <dt>Доставка</dt>
+              <dt>Доставка (курьер)</dt>
               <dd>{formatPrice(DELIVERY_PRICE)} ₽</dd>
             </div>
             <div>
-              <dt>НДС 20%</dt>
+              <dt>В том числе НДС 20%</dt>
               <dd>{formatPrice(tax)} ₽</dd>
             </div>
           </dl>

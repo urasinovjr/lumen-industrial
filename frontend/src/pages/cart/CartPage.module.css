@@ -160,16 +160,39 @@
   color: var(--color-text);
 }
 
-.continue {
+.itemsActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-top: 12px;
+}
+
+.continue {
   font-size: 14px;
   font-weight: 500;
   color: var(--color-text-secondary);
-  align-self: flex-start;
 }
 
 .continue:hover {
   color: var(--color-accent-active);
+}
+
+.clearBtn {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clearBtn:hover {
+  color: var(--color-danger);
+}
+
+.clearBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .summary {

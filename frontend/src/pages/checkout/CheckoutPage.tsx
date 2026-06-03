@@ -3,7 +3,12 @@ import type { FormEvent } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchCart, resetCart } from '../../entities/cart'
-import { formatPrice, submitOrder } from '../../entities/order'
+import {
+  deliveryPriceFor,
+  formatPrice,
+  includedTax,
+  submitOrder,
+} from '../../entities/order'
 import type {
   CheckoutForm,
   DeliveryMethod,
@@ -20,10 +25,6 @@ import {
 import type { RadioOption } from '../../shared/ui'
 import { productImagePlaceholder } from '../../shared/api/client'
 import styles from './CheckoutPage.module.css'
-
-const DELIVERY_PRICE = 1450
-const PICKUP_PRICE = 0
-const TAX_RATE = 0.2
 
 const DELIVERY_OPTIONS: RadioOption[] = [
   {
@@ -84,13 +85,12 @@ export default function CheckoutPage() {
   }, [dispatch, items.length])
 
   const summary = useMemo(() => {
-    const deliveryPrice =
-      form.deliveryMethod === 'courier' ? DELIVERY_PRICE : PICKUP_PRICE
-    const tax = Math.round(total * TAX_RATE)
+    const deliveryPrice = deliveryPriceFor(form.deliveryMethod)
+    const finalTotal = total + deliveryPrice
     return {
       deliveryPrice,
-      tax,
-      finalTotal: total + deliveryPrice + tax,
+      tax: includedTax(finalTotal),
+      finalTotal,
     }
   }, [form.deliveryMethod, total])
 
@@ -290,7 +290,7 @@ export default function CheckoutPage() {
               </dd>
             </div>
             <div>
-              <dt>НДС (20%)</dt>
+              <dt>В том числе НДС 20%</dt>
               <dd>{formatPrice(summary.tax)} ₽</dd>
             </div>
           </dl>

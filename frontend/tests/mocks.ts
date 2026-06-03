@@ -207,7 +207,7 @@ export async function setupApiMocks(page: Page) {
           quantity: item.quantity,
           subtotal: item.subtotal,
         })),
-        total: cart.total,
+        total: cart.total + (body.delivery_method === 'pickup' ? 0 : 1450),
         created_at: '2026-01-01T10:00:00.000Z',
         updated_at: '2026-01-01T10:00:00.000Z',
       }

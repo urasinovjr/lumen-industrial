@@ -4,11 +4,9 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchCategories, fetchProducts } from '../../entities/product'
 import { ProductCard } from '../../widgets/product-card/ProductCard'
 import { PromoBanner } from '../../widgets/promo-banner/PromoBanner'
-import { Newsletter } from '../../widgets/newsletter/Newsletter'
 import styles from './CatalogPage.module.css'
 
 const PAGE_SIZE = 8
-const PAGE_SIZE_WITH_PROMO = 6
 
 export default function CatalogPage() {
   const dispatch = useAppDispatch()
@@ -25,7 +23,7 @@ export default function CatalogPage() {
   )
 
   const promoEligible = !categoryId && !search
-  const limit = promoEligible && page === 1 ? PAGE_SIZE_WITH_PROMO : PAGE_SIZE
+  const limit = PAGE_SIZE
   const showPromo = promoEligible && page === 1
 
   useEffect(() => {
@@ -43,14 +41,7 @@ export default function CatalogPage() {
     )
   }, [dispatch, page, limit, search, categoryId])
 
-  const totalPages = (() => {
-    if (total === 0) return 1
-    if (promoEligible) {
-      if (total <= PAGE_SIZE_WITH_PROMO) return 1
-      return Math.ceil((total - PAGE_SIZE_WITH_PROMO) / PAGE_SIZE) + 1
-    }
-    return Math.ceil(total / PAGE_SIZE)
-  })()
+  const totalPages = total === 0 ? 1 : Math.ceil(total / PAGE_SIZE)
 
   function updateParam(key: string, value: string | null) {
     const next = new URLSearchParams(params)
@@ -186,8 +177,6 @@ export default function CatalogPage() {
           </nav>
         )}
       </section>
-
-      <Newsletter />
     </main>
   )
 }

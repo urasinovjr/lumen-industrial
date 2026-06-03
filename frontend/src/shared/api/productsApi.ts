@@ -49,6 +49,7 @@ export type ListProductsParams = {
   limit?: number
   search?: string
   categoryId?: number | null
+  includeInactive?: boolean
 }
 
 export type ListProductsResult = {
@@ -64,6 +65,7 @@ export async function listProducts(params: ListProductsParams = {}): Promise<Lis
   if (params.limit) query.set('limit', String(params.limit))
   if (params.search && params.search.trim()) query.set('search', params.search.trim())
   if (params.categoryId) query.set('category_id', String(params.categoryId))
+  if (params.includeInactive) query.set('include_inactive', 'true')
 
   const qs = query.toString()
   const url = qs ? `/api/products?${qs}` : '/api/products'

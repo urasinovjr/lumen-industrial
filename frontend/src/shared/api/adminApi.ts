@@ -62,12 +62,13 @@ function toProductBody(form: ProductForm) {
   }
 }
 
-export async function createProduct(form: ProductForm): Promise<void> {
-  await request('/api/products', {
+export async function createProduct(form: ProductForm): Promise<number> {
+  const data = await request<{ id: number }>('/api/products', {
     method: 'POST',
     headers: authHeaders(),
     body: toProductBody(form),
   })
+  return data.id
 }
 
 export async function updateProduct(id: number, form: ProductForm): Promise<void> {
@@ -80,6 +81,21 @@ export async function updateProduct(id: number, form: ProductForm): Promise<void
 
 export async function deleteProduct(id: number): Promise<void> {
   await request(`/api/products/${id}`, { method: 'DELETE', headers: authHeaders() })
+}
+
+export async function uploadProductImage(id: number, file: File): Promise<void> {
+  const token = getAdminToken()
+  const formData = new FormData()
+  formData.append('file', file)
+  const response = await fetch(`/api/products/${id}/image`, {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: formData,
+  })
+  if (!response.ok) {
+    const data = (await response.json().catch(() => null)) as { error?: string } | null
+    throw new Error(data?.error ?? `Ошибка ${response.status}`)
+  }
 }
 
 type OrderSummaryRaw = {
